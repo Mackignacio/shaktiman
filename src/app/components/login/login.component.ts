@@ -34,6 +34,7 @@ export class LoginComponent implements OnInit {
     this.dbService.loggedIn().subscribe(data => {
       if (!data) {
         this.isLogin = false;
+        localStorage.clear();
       } else {
         this.router.navigate(["admin"]);
       }
@@ -105,6 +106,7 @@ export class LoginComponent implements OnInit {
     this.processing = true;
     this.disableForm();
     this.data["function"] = "userLogin";
+
     this.dbService.userLogin(this.data).subscribe((data: any) => {
       if (data.status === "error") {
         this.messageClass = "alert alert-danger";
@@ -115,7 +117,7 @@ export class LoginComponent implements OnInit {
         this.messageClass = "alert alert-success";
         this.message = data.message;
         this.global.usertype = data.usertype;
-        localStorage.setItem("user", data.username);
+        localStorage.setItem("username", data.username);
         localStorage.setItem("token", data.token);
         localStorage.setItem("id", data.id);
         this.user = new User();
