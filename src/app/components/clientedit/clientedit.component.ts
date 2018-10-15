@@ -153,9 +153,12 @@ export class ClienteditComponent implements OnInit {
       if (data.status === "success") {
         this.messageClass = "alert alert-success";
         this.message = data.message;
-        this.processing = false;
+
         this.form.reset();
-        this.goBack();
+        setTimeout(() => {
+          this.processing = false;
+          this.goBack();
+        }, 2000);
       } else {
         this.messageClass = "alert alert-danger";
         this.message = data.message;
