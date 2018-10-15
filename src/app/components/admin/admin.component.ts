@@ -21,7 +21,6 @@ export class AdminComponent implements OnInit {
     private location: PlatformLocation
   ) {
     this.dbService.get("user", localStorage.getItem("id")).subscribe(data => {
-      // console.log(data);
       this.userType = this.global.usertype = data[0].usertype;
       this.global.employeeName = data[0].employeeName;
     });
@@ -33,7 +32,10 @@ export class AdminComponent implements OnInit {
       }, 100);
     });
     this.router.events.subscribe(event => {
-      const url = event["url"] === undefined ? "" : event["url"].replace("/admin", "").split("/")[1];
+      const url =
+        event["url"] === undefined
+          ? ""
+          : event["url"].replace("/admin", "").split("/")[1];
       this.changeNavbar(url);
     });
 
@@ -49,9 +51,12 @@ export class AdminComponent implements OnInit {
   ngOnInit() {}
 
   goTo(path) {
-    // console.log(this.userType);
-    this.userType = this.userType === undefined ? this.global.usertype : this.userType;
-    if (path === "accounting" && (this.userType === "Admin" || this.userType === "Accounting")) {
+    this.userType =
+      this.userType === undefined ? this.global.usertype : this.userType;
+    if (
+      path === "accounting" &&
+      (this.userType === "Admin" || this.userType === "Accounting")
+    ) {
       this.router.navigate(["/admin/" + path]);
       this.menu = path;
     } else if (
@@ -90,13 +95,19 @@ export class AdminComponent implements OnInit {
     ) {
       this.router.navigate(["/admin/" + path]);
       this.menu = path;
-    } else if (path === "deliver" && (this.userType === "Admin" || this.userType === "Purchasing")) {
+    } else if (
+      path === "deliver" &&
+      (this.userType === "Admin" || this.userType === "Purchasing")
+    ) {
       this.router.navigate(["/admin/" + path]);
       this.menu = path;
     } else if (path === "documents" && this.userType === "Admin") {
       this.router.navigate(["/admin/" + path]);
       this.menu = path;
-    } else if (path === "reports" && (this.userType === "Admin" || this.userType === "Accounting")) {
+    } else if (
+      path === "reports" &&
+      (this.userType === "Admin" || this.userType === "Accounting")
+    ) {
       this.router.navigate(["/admin/" + path]);
       this.menu = path;
     } else if (path === "user" && this.userType === "Admin") {
@@ -114,7 +125,8 @@ export class AdminComponent implements OnInit {
   logout() {
     localStorage.removeItem("id");
     localStorage.removeItem("token");
-    localStorage.removeItem("user");
+    localStorage.removeItem("username");
+    localStorage.removeItem("usertype");
   }
 
   changeNavbar(url) {

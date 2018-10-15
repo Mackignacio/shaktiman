@@ -38,8 +38,10 @@ export class ItemlistComponent implements OnInit {
     "description",
     "action"
   ];
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator)
+  paginator: MatPaginator;
+  @ViewChild(MatSort)
+  sort: MatSort;
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
@@ -111,7 +113,7 @@ export class ItemlistComponent implements OnInit {
       };
       // console.log(input);
       this.dbService.post(input).subscribe((data: Data) => {
-        console.log(data);
+        
         if (data.status !== "error") {
           // console.log(this.transactions);
           this.items = this.global.items = data;
