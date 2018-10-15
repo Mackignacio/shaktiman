@@ -3,12 +3,12 @@ import { DatabaseService } from "../../services/database.service";
 import {
   FormBuilder,
   FormGroup,
-  Validators,
-  FormControl
+  Validators
 } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Purchase, Data } from "../../model/schema";
 import { GlobalService } from "../../services/global.service";
+
 
 @Component({
   selector: "app-deliveryreciept",
@@ -380,7 +380,6 @@ export class DeliveryrecieptComponent implements OnInit {
     }
 
     localStorage.setItem("agent", JSON.stringify(name));
-    // console.log(this.agentList);
   }
   select(item, action) {
     if (action === "client") {
@@ -450,7 +449,6 @@ export class DeliveryrecieptComponent implements OnInit {
         }
       });
       this.serialNoList = duplicate;
-      // console.log(this.serialNoList);
     }
 
     if (action === "serial") {
@@ -494,13 +492,13 @@ export class DeliveryrecieptComponent implements OnInit {
                   serial: this.serialNo,
                   quantity: this.quantity
                 };
-
+          
                 this.dbService.post(data).subscribe((res: Data) => {
                   if (res.status === "error") {
                     this.messageClassItem = "alert alert-danger";
                     this.messageItem = res.message;
                   } else {
-                    this.addCart(data);
+                    this.addCart(res);
                     this.loadCart();
                     this.checkCart();
                     this.itemName = "";
@@ -659,16 +657,21 @@ export class DeliveryrecieptComponent implements OnInit {
       if (data.status === "success") {
         this.messageClass = "alert alert-success";
         this.message = data.message;
+      
         setTimeout(() => {
           this.clearAll();
           this.global.getPurchases();
+          this.processing = false;
           this.router.navigate(["/admin/purchase/purchase-list"]);
-          alert(data.message);
         }, 2000);
       } else {
         this.processing = true;
-        this.messageClass = "alert alert-danger";
-        this.message = data.message;
+        if (data.status === "error") {
+          this.messageClass = "alert alert-danger";
+          this.message = data.message;
+        } else {
+          alert(data.message);
+        }
       }
     });
   }
