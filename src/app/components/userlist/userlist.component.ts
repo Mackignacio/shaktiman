@@ -69,7 +69,8 @@ export class UserlistComponent implements OnInit {
       const input = {
         value: this.search,
         function: "searchAll",
-        field: this.field
+        field: this.field,
+        table: "user"
       };
       this.dbService.post(input).subscribe((data: Data) => {
         if (data.status !== "error") {
