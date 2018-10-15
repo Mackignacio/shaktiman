@@ -23,6 +23,8 @@ export class DeliveryComponent implements OnInit {
     engine: ""
   };
   form: FormGroup;
+  message;
+  messageClass;
   processing = false;
   itemList: any[] = [];
   itemNameList: any[] = [];
@@ -236,12 +238,21 @@ export class DeliveryComponent implements OnInit {
     this.model["function"] = "addDelivery";
     this.dbService.post(this.model).subscribe((data: Data) => {
       if (data.status === "success") {
-        alert(this.model.item + " is successfully added!");
+        this.messageClass = "alert alert-success";
+        this.message = data.message;
         this.processing = false;
-        this.form.reset();
+        setTimeout(() => {
+          this.form.reset();
+          this.goBack();
+        }, 2000);
       } else {
         this.processing = false;
-        alert(data.message);
+        if (data.status === "error") {
+          this.messageClass = "alert alert-danger";
+          this.message = data.message;
+        } else {
+          alert(data.message);
+        }
       }
     });
   }
